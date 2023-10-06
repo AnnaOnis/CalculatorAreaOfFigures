@@ -9,11 +9,14 @@ namespace CalculatorAreaOfFigures
     public class Сircle : IFigure
     {
         public double radius { get; init; }
+        public double Area => CalculateArea();
 
         public Сircle(double r)
         {
-            if (r <= 0) { throw new ArgumentOutOfRangeException(nameof(r), message: "Длина радиуса должна быть больше нуля"); }
+            if (!double.IsNormal(r) || r <= 0) { throw new ArgumentOutOfRangeException(nameof(r), message: "Длина радиуса должна быть больше нуля"); }
             radius = r;
+
+            if (double.IsInfinity(Area)) throw new ArgumentOutOfRangeException(nameof(Area), message: "Area is infinity");
         }
 
 

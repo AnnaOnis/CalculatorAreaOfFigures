@@ -8,6 +8,8 @@ namespace CalculatorAreaOfFigures
 {
     public interface IFigure
     {
-        public double CalculateArea();
+        public double Area => CalculateArea();
+
+        double CalculateArea();
     }
 }

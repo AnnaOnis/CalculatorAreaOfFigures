@@ -2,35 +2,40 @@
 {
     public class Triangle : IFigure
     {
-        public double sideA { get; init; }
-        public double sideB { get; init; }
-        public double sideC { get; init; }
+        public double SideA { get; init; }
+        public double SideB { get; init; }
+        public double SideC { get; init; }
+        public double Area  => CalculateArea();
 
         public Triangle(double a, double b, double c)
         {
-            if (a <= 0) throw new ArgumentOutOfRangeException(nameof(a), message: "Длина стороны должна быть больше нуля.");
-            if (b <= 0) throw new ArgumentOutOfRangeException(nameof(b), message: "Длина стороны должна быть больше нуля.");
-            if (c <= 0) throw new ArgumentOutOfRangeException(nameof(c), message: "Длина стороны должна быть больше нуля.");
-            if (a > b + c || b > a + c || c > a + b)
-                throw new InvalidOperationException(message: "Такого треугольника не существует. Одна из сторон больше суммы двух других.");
+            if (!double.IsNormal(a) || a <= 0) throw new ArgumentOutOfRangeException(nameof(a), message: "Длина стороны должна быть больше нуля.");
+            if (!double.IsNormal(b) || b <= 0) throw new ArgumentOutOfRangeException(nameof(b), message: "Длина стороны должна быть больше нуля.");
+            if (!double.IsNormal(c) || c <= 0) throw new ArgumentOutOfRangeException(nameof(c), message: "Длина стороны должна быть больше нуля.");
 
-            sideA = a;
-            sideB = b; 
-            sideC = c;
+            if (a > b + c)throw new ArgumentException(message: $"Такого треугольника не существует. Cторона {nameof(a)} больше суммы двух других.");
+            if (b > a + c) throw new ArgumentException(message: $"Такого треугольника не существует. Cторона {nameof(b)} больше суммы двух других.");
+            if (c > a + b) throw new ArgumentException(message: $"Такого треугольника не существует. Cторона {nameof(c)} больше суммы двух других.");
+
+            SideA = a;
+            SideB = b; 
+            SideC = c;
+
+            if(double.IsInfinity(Area)) throw new ArgumentException(message: $"{nameof(Area)} isInfinity");
         }
 
         public double CalculateArea()
         {
-            var p = (sideA + sideB + sideC) / 2;
-            var area = Math.Sqrt(p * (p - sideA) * (p - sideB) * (p - sideC));
+            var p = (SideA + SideB + SideC) / 2;
+            var area = Math.Sqrt(p * (p - SideA) * (p - SideB) * (p - SideC));
             return Math.Round(area, 2);
         }
 
         public bool IsRectangular()
         {
-            bool isRectangular = Math.Pow(sideA, 2) == Math.Pow(sideC, 2) + Math.Pow(sideB, 2) ||
-                   Math.Pow(sideB, 2) == Math.Pow(sideA, 2) + Math.Pow(sideC, 2) ||
-                   Math.Pow(sideC, 2) == Math.Pow(sideA, 2) + Math.Pow(sideB, 2);
+            bool isRectangular = Math.Pow(SideA, 2) == Math.Pow(SideC, 2) + Math.Pow(SideB, 2) ||
+                   Math.Pow(SideB, 2) == Math.Pow(SideA, 2) + Math.Pow(SideC, 2) ||
+                   Math.Pow(SideC, 2) == Math.Pow(SideA, 2) + Math.Pow(SideB, 2);
 
             return isRectangular;
         }
