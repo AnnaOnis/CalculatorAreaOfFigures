@@ -1,5 +1,4 @@
 using FluentAssertions;
-using System.Net.WebSockets;
 
 namespace CalculatorAreaOfFigures.Tests
 {
@@ -12,11 +11,8 @@ namespace CalculatorAreaOfFigures.Tests
             var circle = new Ñircle(5);
             var valid = 78.54;
 
-            //Act
-            var area = circle.CalculateArea();
-
-            //Assert
-            Assert.Equal(valid, area);
+            //Act / Assert
+            Assert.Equal(valid, circle.Area);
         }
 
         [Theory]
@@ -29,8 +25,6 @@ namespace CalculatorAreaOfFigures.Tests
             FluentActions.Invoking(() => new Ñircle(radius))
                 .Should()
                 .ThrowExactly<ArgumentOutOfRangeException>();
-
-            //Assert.Throws<ArgumentOutOfRangeException>(() => {var circle = new Ñircle(radius); });
         }
 
         [Fact]

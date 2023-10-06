@@ -1,14 +1,21 @@
 ﻿using FluentAssertions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CalculatorAreaOfFigures.Tests
 {
     public class TriangleTests
     {
+        [Fact]
+        public void Triangle_is_created()
+        {
+            //Arrange
+            var triangle = new Triangle(5d, 6d, 7d) ;
+
+            //Act / Assert
+            triangle.SideA.Should().Be(5d);
+            triangle.SideB.Should().Be(6d);
+            triangle.SideC.Should().Be(7d);
+        }
+
         [Fact]
         public void Area_of_tringle_with_side_6_8_10_is_valid()
         {
@@ -16,30 +23,30 @@ namespace CalculatorAreaOfFigures.Tests
             var triangle = new Triangle(6, 8, 10);
             var valid = 24;
 
-            //Act
-            var area = triangle.CalculateArea();
-
-            //Assert
-            Assert.Equal(area, valid);
-        }
-
-        [Fact]
-        public void Tringle_with_side_6_8_10_is_rectangular()
-        {
-            //Arrange
-            var triangle = new Triangle(6, 8, 10);
-
-            //Act
-            var area = triangle.IsRectangular();
-
-            //Assert
-            Assert.True(area);
+            //Act / Assert
+            Assert.Equal(triangle.Area, valid);
         }
 
         [Theory]
-        [InlineData(8, 2, 4)]
-        [InlineData(2, 9, 5)]
-        [InlineData(1, 3, 6)]
+        [InlineData(6d, 8d, 10d)]
+        [InlineData(6d, 10d, 8d)]
+        [InlineData(10d, 8d, 6d)]
+        public void Tringle_is_rectangular(double a, double b, double c)
+        {
+            //Arrange
+            var triangle = new Triangle(a, b, c);
+
+            //Act
+            var isRectangular = triangle.IsRectangular();
+
+            //Assert
+            Assert.True(isRectangular);
+        }
+
+        [Theory]
+        [InlineData(8d, 2d, 4d)]
+        [InlineData(2d, 9d, 5d)]
+        [InlineData(1d, 3d, 6d)]
         [InlineData(double.MaxValue, double.MaxValue, double.MaxValue)]
         public void Triangle_with_incorrect_side_will_not_be_created(double a, double b, double c)
         {
@@ -47,8 +54,6 @@ namespace CalculatorAreaOfFigures.Tests
             FluentActions.Invoking(() => new Triangle(a, b, c))
                 .Should()
                 .Throw<ArgumentException>();
-
-            //Assert.Throws<ArgumentException>(() => { var triangle = new Triangle(a, b, c); });
         }
 
         [Theory]
@@ -73,8 +78,6 @@ namespace CalculatorAreaOfFigures.Tests
             FluentActions.Invoking(() => new Triangle(a, b, c))
                 .Should()
                 .ThrowExactly<ArgumentOutOfRangeException>();
-
-            //Assert.Throws<ArgumentOutOfRangeException>(() => { var triangle = new Triangle(a, b, c); });
         }
 
 

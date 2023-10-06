@@ -24,7 +24,7 @@
             if(double.IsInfinity(Area)) throw new ArgumentException(message: $"{nameof(Area)} isInfinity");
         }
 
-        public double CalculateArea()
+        private double CalculateArea()
         {
             var p = (SideA + SideB + SideC) / 2;
             var area = Math.Sqrt(p * (p - SideA) * (p - SideB) * (p - SideC));
